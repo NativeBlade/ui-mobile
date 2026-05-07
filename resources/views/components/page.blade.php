@@ -6,6 +6,7 @@
     $bg = $theme === 'ios' ? 'bg-gray-50' : 'bg-gray-100';
 @endphp
 
+<div {{ $attributes->class("min-h-screen flex flex-col {$bg}") }}>
 @once
     <script>
         // Global helpers. Devs write onclick="nb.open('drawer','main-menu')"
@@ -41,6 +42,5 @@
     </script>
 @endonce
 
-<div {{ $attributes->class("min-h-screen flex flex-col {$bg}") }}>
     {{ $slot }}
 </div>
