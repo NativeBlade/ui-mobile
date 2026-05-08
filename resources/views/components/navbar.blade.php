@@ -44,7 +44,7 @@
 
 <header
     {{ $attributes->class($bar) }}
-    style="padding-top: env(safe-area-inset-top);{{ $barStyle }}"
+    style="padding-top: min(env(safe-area-inset-top, 0px), 28px);{{ $barStyle }}"
 >
     <div class="{{ $inner }}">
         @if($left)

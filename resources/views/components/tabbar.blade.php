@@ -16,7 +16,7 @@
 
 <nav
     {{ $attributes->class($bar) }}
-    style="padding-bottom: env(safe-area-inset-bottom);{{ $barStyle }}"
+    style="padding-bottom: min(env(safe-area-inset-bottom, 0px), 16px);{{ $barStyle }}"
 >
     <div class="{{ $inner }}">
         {{ $slot }}
