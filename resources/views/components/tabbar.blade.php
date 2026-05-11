@@ -3,17 +3,16 @@
 
     $theme = Theme::current($theme ?? null);
 
-    // Safe-area padding follows Konsta's formula:
-    //   iOS:      padding-bottom: calc(env(safe-area-inset-bottom) + 1rem)  (16px extra above home indicator)
-    //   Material: padding-bottom: env(safe-area-inset-bottom)               (gesture indicator only)
-    $safePad = $theme === 'ios'
-        ? 'padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);'
-        : 'padding-bottom: env(safe-area-inset-bottom, 0px);';
+    // Safe-area padding — only enough to clear the home indicator / gesture
+    // bar. Konsta's `pb-safe-4` (safe + 1rem) leaves visible empty space
+    // below the buttons; we use just `pb-safe` so the tab items sit closer
+    // to the indicator while still clearing it.
+    $safePad = 'padding-bottom: env(safe-area-inset-bottom, 0px);';
 
     if ($theme === 'ios') {
         $bar = 'sticky bottom-0 z-20 border-t border-gray-200';
         $barStyle = $safePad . 'background-color: rgba(248,248,250,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);';
-        $inner = 'flex h-12';
+        $inner = 'flex items-center h-12';
     } else {
         $bar = 'sticky bottom-0 z-20 bg-gray-50';
         $barStyle = $safePad;
