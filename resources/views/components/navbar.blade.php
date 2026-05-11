@@ -18,15 +18,22 @@
         $centerTitle = ($theme === 'ios');
     }
 
+    // Safe-area padding follows Konsta's formula:
+    //   iOS:      padding-top: max(16px, env(safe-area-inset-top))   (matches notch HIG)
+    //   Material: padding-top: env(safe-area-inset-top)              (status bar only)
+    $safePad = $theme === 'ios'
+        ? 'padding-top: max(16px, env(safe-area-inset-top, 0px));'
+        : 'padding-top: env(safe-area-inset-top, 0px);';
+
     if ($transparent) {
         $bar = 'sticky top-0 z-20';
-        $barStyle = '';
+        $barStyle = $safePad;
     } elseif ($theme === 'ios') {
         $bar = 'sticky top-0 z-20 border-b border-gray-200';
-        $barStyle = 'background-color: rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);';
+        $barStyle = $safePad . 'background-color: rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);';
     } else {
         $bar = 'sticky top-0 z-20 bg-white shadow-sm';
-        $barStyle = '';
+        $barStyle = $safePad;
     }
 
     $inner = $theme === 'ios'
@@ -44,7 +51,7 @@
 
 <header
     {{ $attributes->class($bar) }}
-    style="padding-top: min(env(safe-area-inset-top, 0px), 28px);{{ $barStyle }}"
+    style="{{ $barStyle }}"
 >
     <div class="{{ $inner }}">
         @if($left)

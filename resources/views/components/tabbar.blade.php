@@ -3,20 +3,27 @@
 
     $theme = Theme::current($theme ?? null);
 
+    // Safe-area padding follows Konsta's formula:
+    //   iOS:      padding-bottom: calc(env(safe-area-inset-bottom) + 1rem)  (16px extra above home indicator)
+    //   Material: padding-bottom: env(safe-area-inset-bottom)               (gesture indicator only)
+    $safePad = $theme === 'ios'
+        ? 'padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);'
+        : 'padding-bottom: env(safe-area-inset-bottom, 0px);';
+
     if ($theme === 'ios') {
         $bar = 'sticky bottom-0 z-20 border-t border-gray-200';
-        $barStyle = 'background-color: rgba(248,248,250,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);';
+        $barStyle = $safePad . 'background-color: rgba(248,248,250,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);';
         $inner = 'flex h-12';
     } else {
         $bar = 'sticky bottom-0 z-20 bg-gray-50';
-        $barStyle = '';
+        $barStyle = $safePad;
         $inner = 'flex h-20 items-center';
     }
 @endphp
 
 <nav
     {{ $attributes->class($bar) }}
-    style="padding-bottom: min(env(safe-area-inset-bottom, 0px), 16px);{{ $barStyle }}"
+    style="{{ $barStyle }}"
 >
     <div class="{{ $inner }}">
         {{ $slot }}
