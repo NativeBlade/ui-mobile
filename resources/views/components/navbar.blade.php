@@ -41,7 +41,7 @@
         : 'flex items-center h-16 px-4 gap-3';
 
     if ($centerTitle) {
-        $titleClass = 'absolute left-1/2 -translate-x-1/2 text-base font-semibold text-gray-900 whitespace-nowrap';
+        $titleClass = 'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-semibold text-gray-900 whitespace-nowrap';
     } else {
         $titleClass = 'flex-1 text-lg font-medium text-gray-900 truncate';
     }
