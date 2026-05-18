@@ -30,6 +30,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Color mode
+    |--------------------------------------------------------------------------
+    |
+    | Forces the surface palette used by every component:
+    |   - 'light' : always light (default Konsta/iOS look)
+    |   - 'dark'  : always dark (deep backgrounds + light text)
+    |   - 'auto'  : follows the user's OS preference (prefers-color-scheme)
+    |
+    | When set to 'dark' or 'auto', the ServiceProvider injects a small
+    | <style> tag that overrides the hard-coded Tailwind tokens used inside
+    | the component templates (bg-white, border-gray-200, text-gray-900,
+    | etc.) so you don't need to write any CSS yourself.
+    |
+    */
+    'mode' => 'light',
+
+    /*
+    |--------------------------------------------------------------------------
     | Brand colors
     |--------------------------------------------------------------------------
     |
@@ -50,5 +68,24 @@ return [
             'primary_text' => 'white',
             'destructive' => 'red-600',
         ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dark mode palette
+    |--------------------------------------------------------------------------
+    |
+    | The hex values used by the auto-injected dark stylesheet. Tune these
+    | to match your app's branding without rewriting every component.
+    |
+    */
+    'dark_palette' => [
+        'bg'         => '#0d1117',
+        'surface'    => '#161b22',
+        'surface_2'  => '#21262d',
+        'border'     => '#30363d',
+        'fg'         => '#e6edf3',
+        'fg_muted'   => '#8b949e',
+        'fg_soft'    => '#c9d1d9',
     ],
 ];

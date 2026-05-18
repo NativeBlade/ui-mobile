@@ -3,20 +3,21 @@
 
     $theme = Theme::current($theme ?? null);
 
-    // Safe-area padding — only enough to clear the home indicator / gesture
-    // bar. Konsta's `pb-safe-4` (safe + 1rem) leaves visible empty space
-    // below the buttons; we use just `pb-safe` so the tab items sit closer
-    // to the indicator while still clearing it.
+    // Safe-area padding — just enough to clear the home indicator / gesture
+    // bar without leaving an empty band below the buttons.
     $safePad = 'padding-bottom: env(safe-area-inset-bottom, 0px);';
 
     if ($theme === 'ios') {
         $bar = 'sticky bottom-0 z-20 border-t border-gray-200';
         $barStyle = $safePad . 'background-color: rgba(248,248,250,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);';
-        $inner = 'flex items-center h-12';
+        // iOS spec tabbar: 49px. h-12 (48px) matches.
+        $inner = 'flex items-stretch h-12';
     } else {
-        $bar = 'sticky bottom-0 z-20 bg-gray-50';
+        $bar = 'sticky bottom-0 z-20 bg-white border-t border-gray-200 shadow-sm';
         $barStyle = $safePad;
-        $inner = 'flex h-20 items-center';
+        // Material 3 navigation bar: 80px is its MAX with a label/badge stack;
+        // for icon+label compact layout (our default) 56-64px is correct.
+        $inner = 'flex items-stretch h-16';
     }
 @endphp
 

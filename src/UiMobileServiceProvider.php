@@ -19,6 +19,12 @@ class UiMobileServiceProvider extends ServiceProvider
             'nb-mobile'
         );
 
+        // @nbUiMobileStyles — drop into <head> of your layout to inject the
+        // mode (light/dark/auto) stylesheet based on config('nb-ui-mobile').
+        Blade::directive('nbUiMobileStyles', function () {
+            return "<?php echo \\NativeBlade\\UiMobile\\Theme::styleTag(); ?>";
+        });
+
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/nb-ui-mobile.php' => config_path('nb-ui-mobile.php'),

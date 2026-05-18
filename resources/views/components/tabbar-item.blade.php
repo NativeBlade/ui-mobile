@@ -8,42 +8,58 @@
     $label = $label ?? null;
     $color = Theme::color('primary', $theme);
 
-    // Tabs default to no slide because they navigate between sibling sections,
-    // not deeper screens. Override with transition="slide" / "fade" / etc.
-    $transition = $transition ?? 'none';
-
     if ($theme === 'ios') {
-        $base = 'flex-1 flex flex-col items-center justify-center py-1 select-none active:opacity-60 transition';
+        $base = 'flex-1 flex flex-col items-center justify-center gap-0.5 py-1 select-none active:opacity-60 transition no-underline';
         $colorClass = $active ? "text-{$color}" : 'text-gray-700';
-        $iconWrap = 'flex items-center justify-center w-7 h-7';
+        $iconWrap = 'flex items-center justify-center';
         $labelSize = $label && $icon ? 'text-[10px] font-medium leading-tight' : 'text-xs font-medium';
     } else {
-        $base = 'flex-1 flex flex-col items-center justify-center py-2 gap-1 select-none active:opacity-60 transition';
+        $base = 'flex-1 flex flex-col items-center justify-center gap-1 py-2 select-none active:opacity-60 transition no-underline';
         $colorClass = $active ? "text-{$color}" : 'text-gray-600';
-        $iconWrap = 'flex items-center justify-center w-7 h-7 transition-colors';
+        $iconWrap = 'flex items-center justify-center transition-colors';
         $labelSize = $active ? "text-xs font-semibold text-{$color}" : 'text-xs font-medium';
     }
 
-    // When href is provided we render as a button that calls nb.navigate so
-    // we can pass the transition option. Plain <a href> goes through the
-    // router's default transition, which would slide.
-    $click = $href ? "nb.navigate('" . addslashes($href) . "', {transition:'" . addslashes($transition) . "'})" : null;
+    // Render as a plain anchor so:
+    //   - Shell mode: link-intercept (nativeblade) catches the click and
+    //     posts a `nativeblade-navigate` message — same flow as wire:nb-navigate.
+    //   - Browser preview: the anchor follows href normally.
+    // We avoid window.location.href in onclick because it doesn't go through
+    // the shell's navigate handler in WASM mode (404 on Android).
+    $tag = $href ? 'a' : 'button';
+    $tapHighlight = 'style="-webkit-tap-highlight-color: transparent;"';
 @endphp
 
-<button
-    type="button"
-    @if($click) onclick="{{ $click }}" @endif
-    {{ $attributes->class("{$base} {$colorClass}") }}
->
-    @if($icon)
-        <span class="{{ $iconWrap }}">
-            <span class="w-6 h-6 flex items-center justify-center">{{ $icon }}</span>
-        </span>
-    @endif
+@if($href)
+    <a
+        href="{{ $href }}"
+        {!! $tapHighlight !!}
+        {{ $attributes->class("{$base} {$colorClass} focus:outline-none") }}
+    >
+        @if($icon)
+            <span class="{{ $iconWrap }}">{{ $icon }}</span>
+        @endif
 
-    @if($label)
-        <span class="{{ $labelSize }}">{{ $label }}</span>
-    @endif
+        @if($label)
+            <span class="{{ $labelSize }}">{{ $label }}</span>
+        @endif
 
-    {{ $slot }}
-</button>
+        {{ $slot }}
+    </a>
+@else
+    <button
+        type="button"
+        {!! $tapHighlight !!}
+        {{ $attributes->class("{$base} {$colorClass} focus:outline-none") }}
+    >
+        @if($icon)
+            <span class="{{ $iconWrap }}">{{ $icon }}</span>
+        @endif
+
+        @if($label)
+            <span class="{{ $labelSize }}">{{ $label }}</span>
+        @endif
+
+        {{ $slot }}
+    </button>
+@endif
