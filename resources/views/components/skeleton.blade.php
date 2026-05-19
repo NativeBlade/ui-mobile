@@ -5,8 +5,11 @@
     $count = (int)($count ?? 1);
     $animated = isset($animated) ? (bool)$animated : true;
     $rounded = $rounded ?? null;
+    // Background colour: override with `bg="bg-[#21262d]"` (or any Tailwind class)
+    // for dark-themed pages. Default matches the light surfaces.
+    $bg = $bg ?? 'bg-gray-200';
 
-    $base = 'bg-gray-200 ' . ($animated ? 'nb-skeleton-pulse' : '');
+    $base = "{$bg} " . ($animated ? 'nb-skeleton-pulse' : '');
 
     $shape = match ($variant) {
         'circle' => $rounded ?? 'rounded-full',
