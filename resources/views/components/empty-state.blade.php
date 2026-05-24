@@ -30,11 +30,15 @@
     @endisset
 
     @if($title)
-        <h3 class="{{ $titleSize }} font-semibold text-gray-900 mb-1">{{ $title }}</h3>
+        {{-- No explicit text-* class so the heading inherits the parent's
+             text colour. Light-themed parents (body text-gray-900) get dark
+             titles; dark-themed parents (e.g. text-[#e6edf3]) get light
+             titles. Override by passing a class on the component if needed. --}}
+        <h3 class="{{ $titleSize }} font-semibold mb-1">{{ $title }}</h3>
     @endif
 
     @if($description)
-        <p class="text-sm text-gray-500 max-w-xs">{{ $description }}</p>
+        <p class="text-sm opacity-60 max-w-xs">{{ $description }}</p>
     @endif
 
     @isset($action)

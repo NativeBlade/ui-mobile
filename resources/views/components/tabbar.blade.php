@@ -3,9 +3,17 @@
 
     $theme = Theme::current($theme ?? null);
 
+    // Props:
+    //   safe — true to honour env(safe-area-inset-bottom). Defaults to false.
+    //          Only opt in when the webview is configured with
+    //          viewport-fit=cover (i.e. it extends under the home indicator).
+    //          Otherwise iOS ends up with an empty band below the buttons
+    //          because the native shell already insets the webview.
+    $safe = isset($safe) ? (bool)$safe : false;
+
     // Safe-area padding — just enough to clear the home indicator / gesture
     // bar without leaving an empty band below the buttons.
-    $safePad = 'padding-bottom: env(safe-area-inset-bottom, 0px);';
+    $safePad = $safe ? 'padding-bottom: env(safe-area-inset-bottom, 0px);' : '';
 
     if ($theme === 'ios') {
         $bar = 'sticky bottom-0 z-20 border-t border-gray-200';

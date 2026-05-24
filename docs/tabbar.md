@@ -37,4 +37,12 @@ Bottom navigation bar with multiple items.
 
 ## Safe area
 
-The tabbar pads itself with `env(safe-area-inset-bottom)` to stay above the iPhone home indicator.
+The tabbar does **not** add `env(safe-area-inset-bottom)` padding by default. The NativeBlade shell (and most native webviews) already inset the webview above the home indicator, so adding the inset would produce an empty band below the tabs on iOS.
+
+If your webview is configured with `viewport-fit=cover` (the page extends under the home indicator), opt in explicitly:
+
+```blade
+<x-nb-mobile::tabbar :safe="true">
+    ...
+</x-nb-mobile::tabbar>
+```

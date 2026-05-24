@@ -40,4 +40,10 @@ Sticky top bar with optional left/right slots and centered title.
 
 ## Safe area
 
-The navbar handles `env(safe-area-inset-top)` automatically (the shell of NativeBlade also absorbs it for iframe contexts).
+The navbar does **not** add `env(safe-area-inset-top)` padding by default. The NativeBlade shell (and most native webviews) already inset the webview below the status bar / notch, so adding the inset on top would produce an empty band above the title on iOS.
+
+If your webview is configured with `viewport-fit=cover` (the page extends under the status bar), opt in explicitly:
+
+```blade
+<x-nb-mobile::navbar title="Profile" :safe="true" />
+```

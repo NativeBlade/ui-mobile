@@ -15,14 +15,19 @@
     //   backUrl      — optional URL for the back button (default: history.back())
     //   transparent  — no background, no border (overlay style)
     //   centerTitle  — force the title to center (defaults to true on iOS for size=sm)
-    //   safe         — true to honour env(safe-area-inset-top). Defaults to true.
+    //   safe         — true to honour env(safe-area-inset-top). Defaults to false.
+    //                  Only opt in when the webview is configured with
+    //                  viewport-fit=cover (i.e. it extends under the status
+    //                  bar). Otherwise iOS ends up with an empty band above
+    //                  the title because the native shell already insets the
+    //                  webview.
     //   raw          — render subtitle as raw HTML (caller is responsible for escaping)
     $size = $size ?? ($large ?? false ? 'lg' : 'sm');
     if (!in_array($size, ['sm', 'md', 'lg'], true)) $size = 'sm';
     $back = (bool)($back ?? false);
     $backUrl = $backUrl ?? null;
     $transparent = (bool)($transparent ?? false);
-    $safe = isset($safe) ? (bool)$safe : true;
+    $safe = isset($safe) ? (bool)$safe : false;
     $raw = (bool)($raw ?? false);
 
     // Center title only makes sense on the compact iOS variant.
