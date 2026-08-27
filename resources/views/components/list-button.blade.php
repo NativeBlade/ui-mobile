@@ -19,7 +19,7 @@
 
 <li role="listitem">
     @if($href)
-        <a href="{{ $href }}" {{ $attributes->class($row) }}>{{ $slot }}</a>
+        <a wire:nb-navigate="{{ $href }}" {{ $attributes->class($row) }}>{{ $slot }}</a>
     @else
         <button type="button" {{ $attributes->class($row) }}>{{ $slot }}</button>
     @endif

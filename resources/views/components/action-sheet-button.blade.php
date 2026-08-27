@@ -27,10 +27,10 @@
 @endphp
 
 @if($href)
-    {{-- Anchor variant — lets the nativeblade link-intercept (or plain
-         browser navigation) handle routing. Use href when the button is
-         a navigation action; otherwise pass a `wire:click` to a button. --}}
-    <a href="{{ $href }}" {{ $attributes->class($row) }}>
+    {{-- Anchor variant navigates through NativeBlade with wire:nb-navigate.
+         For a non-navigation action, omit href and use the button variant
+         with a wire:click handler. --}}
+    <a wire:nb-navigate="{{ $href }}" {{ $attributes->class($row) }}>
         {{ $slot }}
     </a>
 @else

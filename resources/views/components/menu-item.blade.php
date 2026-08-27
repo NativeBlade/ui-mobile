@@ -26,7 +26,7 @@
 @endphp
 
 @if($href)
-    <a href="{{ $href }}" {{ $attributes->class("{$base} {$active_class}") }}>
+    <a wire:nb-navigate="{{ $href }}" {{ $attributes->class("{$base} {$active_class}") }}>
 @else
     <button type="button" {{ $attributes->class("{$base} {$active_class} w-full text-left") }}>
 @endif

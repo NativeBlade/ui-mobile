@@ -22,7 +22,7 @@
 
 <li role="listitem">
     @if($href)
-        <a href="{{ $href }}" {{ $attributes->class($row) }}>
+        <a wire:nb-navigate="{{ $href }}" {{ $attributes->class($row) }}>
     @else
         <div {{ $attributes->class($row) }}>
     @endif

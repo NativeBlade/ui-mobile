@@ -87,8 +87,12 @@
             <div class="{{ $sideClass }} justify-start">{{ $left }}</div>
         @elseif($back)
             <div class="{{ $sideClass }} justify-start">
+                {{-- The router auto-detects a back navigation: navigating to the
+                     previous screen animates as back (not a push), because
+                     navigate() sees the target is the top of the history stack.
+                     So backUrl should be the screen you came from. --}}
                 <button type="button"
-                    @if($backUrl) onclick="window.location.href='{{ $backUrl }}'"
+                    @if($backUrl) wire:nb-navigate="{{ $backUrl }}"
                     @else onclick="history.back()" @endif
                     nb-feedback
                     style="-webkit-tap-highlight-color: transparent; touch-action: manipulation; -webkit-touch-callout: none;"

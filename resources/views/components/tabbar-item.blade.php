@@ -20,19 +20,16 @@
         $labelSize = $active ? "text-xs font-semibold text-{$color}" : 'text-xs font-medium';
     }
 
-    // Render as a plain anchor so:
-    //   - Shell mode: link-intercept (nativeblade) catches the click and
-    //     posts a `nativeblade-navigate` message — same flow as wire:nb-navigate.
-    //   - Browser preview: the anchor follows href normally.
-    // We avoid window.location.href in onclick because it doesn't go through
-    // the shell's navigate handler in WASM mode (404 on Android).
+    // Navigation uses wire:nb-navigate, the NativeBlade nav directive. The app
+    // runs in an origin-null iframe with no server, so a raw href would not
+    // resolve. A tab with no href is a plain button; drive it with wire:click.
     $tag = $href ? 'a' : 'button';
     $tapHighlight = 'style="-webkit-tap-highlight-color: transparent;"';
 @endphp
 
 @if($href)
     <a
-        href="{{ $href }}"
+        wire:nb-navigate="{{ $href }}"
         {!! $tapHighlight !!}
         {{ $attributes->class("{$base} {$colorClass} focus:outline-none") }}
     >
